@@ -1,0 +1,53 @@
+# Training Configuration for UNetSLSM Cell Segmentation
+
+# Model settings
+model:
+  name: "AttentionUNet"  # Model architecture
+  in_channels: 3  # Input channels (original image, otsu map, distance transform)
+  out_channels: 1  # Output channels (binary segmentation)
+  checkpoint_dir: "runs/unet_training"  # Directory to save model checkpoints
+  save_best_only: true  # Only save model if it's the best so far
+  pretrained_path: null  # Path to pretrained model, null for training from scratch
+
+# Training settings
+train:
+  epochs: 100  # Number of training epochs
+  batch_size: 8  # Training batch size
+  learning_rate: 0.001  # Initial learning rate
+  weight_decay: 0.0001  # L2 regularization
+  lr_scheduler: "reduce_on_plateau"  # Learning rate scheduler
+  lr_scheduler_patience: 10  # Patience for scheduler
+  lr_scheduler_factor: 0.5  # Factor for reducing learning rate
+  early_stopping_patience: 15  # Stop if no improvement after N epochs
+  optimizer: "adam"  # Optimizer (adam, sgd)
+  loss_function: "bce_dice_loss"  # Loss function for training
+  class_weights: [1.0, 2.0]  # Background, Foreground weights for imbalanced data
+  use_crf: true  # Apply CRF as postprocessing
+
+# Validation settings
+val:
+  batch_size: 8  # Validation batch size
+  validation_interval: 1  # Validate every N epochs
+  threshold: 0.07  # Threshold for binary predictions during validation
+
+# Data settings
+data:
+  train_img_dir: "data/cell_dataset/img_dir/train"  # Training images directory
+  train_mask_dir: "data/cell_dataset/mask_dir/train"  # Training masks directory
+  val_img_dir: "data/cell_dataset/img_dir/val"  # Validation images directory
+  val_mask_dir: "data/cell_dataset/mask_dir/val"  # Validation masks directory
+  augmentations: true  # Apply data augmentations
+  input_size: [128, 128]  # Input image size for training
+
+# Hardware settings
+hardware:
+  device: "auto"  # "auto", "cuda", or "cpu"
+  num_workers: 4  # Number of worker processes for data loading
+  pin_memory: true  # Pin memory for faster data transfer to GPU
+
+# Logging settings
+logging:
+  tensorboard: true  # Use TensorBoard for logging
+  log_interval: 10  # Log training metrics every N batches
+  save_images: true  # Save sample predictions during validation
+  experiment_name: "unet_cell_segmentation"  # Name for the experiment

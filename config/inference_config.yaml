@@ -1,0 +1,32 @@
+# Inference Configuration for UNetSLSM Cell Segmentation
+
+# Model settings
+model_path: "runs/light_unet_training_20241024_175658/final_model.pth"  # Path to the trained model
+threshold: 0.07  # Threshold for binary predictions
+in_channels: 3  # Number of input channels
+out_channels: 1  # Number of output classes
+
+# Inference settings
+batch_size: 4  # Batch size for inference
+device: "auto"  # Use "auto" to automatically select GPU if available, "cuda" for GPU, "cpu" for CPU
+num_workers: 4  # Number of worker processes for data loading
+
+# Post-processing
+apply_crf: true  # Apply Conditional Random Field post-processing
+crf_settings:
+  sxy_gaussian: 3  # Spatial standard deviation for Gaussian filter
+  sxy_bilateral: 50  # Spatial standard deviation for bilateral filter
+  srgb: 13  # Color standard deviation for bilateral filter
+  compat_gaussian: 3  # Compatibility value for Gaussian filter
+  compat_bilateral: 10  # Compatibility value for bilateral filter
+  num_iterations: 5  # Number of mean field iterations
+
+# Data settings
+test_img_dirs:
+  - "data/cell_dataset/img_dir/Stest"  # Test images directory
+  - "data/BF_dataset/adjusted_image/test"  # Additional test directory
+
+# Output settings
+output_dir: "outputs/test_results/inference_output"  # Custom output directory
+save_overlay: true  # Save overlay of mask on original image
+save_raw_predictions: true  # Save raw prediction probability maps

@@ -1,0 +1,17 @@
+# Test Configuration for Cell Segmentation
+
+# Model settings
+model_path: "runs/test_model/dummy_model.pth"
+threshold: 0.07  # Threshold for binary predictions
+device: "cpu"   # Use "cuda" for GPU, "cpu" for CPU, or "auto" to use GPU if available
+
+# Data settings
+test_img_dirs:
+  - "data/cell_dataset/img_dir/train"  # Test images directory
+
+# Inference settings
+batch_size: 2
+num_workers: 8
+
+# Output settings
+# output_dir: "outputs/test_results/custom_name"  # Uncomment to specify custom output directory
