@@ -485,7 +485,7 @@ python cell_predict.py --help
 如果您发现我们的工作有用，请考虑引用：
 
 ```bibtex
-@Article{le2025hstforu,
+@Article{mESN,
 author={ Caixin Huang
 and Jingbo Zhang
 and Zhaoyang Liu
